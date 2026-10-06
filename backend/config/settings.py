@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "drf_spectacular",
     # Local apps
     "accounts.apps.AccountsConfig",
+    "finance.apps.FinanceConfig",
+    "reports.apps.ReportsConfig",
 ]
 
 MIDDLEWARE = [
@@ -159,6 +161,15 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 20,
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "EXCEPTION_HANDLER": "config.exceptions.custom_exception_handler",
+    "DEFAULT_THROTTLE_CLASSES": (
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ),
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "100/minute",
+        "user": "1000/minute",
+        "auth": "60/minute",
+    },
 }
 
 # SimpleJWT configuration

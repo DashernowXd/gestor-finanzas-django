@@ -3,7 +3,7 @@ URL configuration for Personal Finance API.
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularSwaggerView,
@@ -13,6 +13,8 @@ from config.views import HealthCheckView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # Authentication & User Management
+    path("api/v1/auth/", include("accounts.urls")),
     # Infrastructure & Monitoring
     path("api/v1/health/", HealthCheckView.as_view(), name="health-check"),
     # OpenAPI Schema & Interactive Documentation
