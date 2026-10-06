@@ -1,0 +1,22 @@
+{
+  "projectId": "563080022382166087",
+  "projectTitle": "Atelier Personal Finance",
+  "designSystemAssetId": "assets/fdb40ddefe204135bf53875de239ccd7",
+  "theme": "Honest Tactile Mineral Minimalism",
+  "screens": [
+    {
+      "id": "217f76fb28684bbfab7fb568cd67c345",
+      "title": "Atelier Finanzas — Landing Page",
+      "deviceType": "DESKTOP",
+      "pngPath": ".stitch/designs/landing-page.png",
+      "htmlPath": ".stitch/designs/landing-page.html"
+    },
+    {
+      "id": "33e93b6e8817493389217744bfa1b587",
+      "title": "Atelier / Libro Mayor — Dashboard Operativo",
+      "deviceType": "DESKTOP",
+      "pngPath": ".stitch/designs/dashboard.png",
+      "htmlPath": ".stitch/designs/dashboard.html"
+    }
+  ]
+}

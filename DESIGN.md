@@ -1,121 +1,98 @@
-# Design System: Taste Standard
-**Skill:** stitch-design-taste
+# Design System: Atelier Finance — Tactile Mineral Minimalism
+**Skill:** stitch-design-taste / stitch::generate-design
 
 ---
 
-## Configuration — Set Your Style
-Adjust these dials before using this design system. They control how creative, dense, and animated the output should be. Pick the level that fits your project.
+## Configuration — Honest Tactile Minimalism
+Tailored for deliberate, non-generic personal finance management. Zero vanity metrics, zero fake testimonials, zero neon lights. Every element is grounded in physical materiality: pressed cotton paper, slate graphite, and muted organic earth pigments.
 
-| Dial | Level | Description |
-|------|-------|-------------|
-| **Creativity** | `8` | `1` = Ultra-minimal, Swiss, silent, monochrome. `5` = Balanced, clean but with personality. `10` = Expressive, editorial, bold typography experiments, inline images in headlines, strong asymmetry. Default: `8` |
-| **Density** | `4` | `1` = Gallery-airy, massive whitespace. `5` = Balanced sections. `10` = Cockpit-dense, data-heavy. Default: `4` |
-| **Variance** | `8` | `1` = Predictable, symmetric grids. `5` = Subtle offsets. `10` = Artsy chaotic, no two sections alike. Default: `8` |
-| **Motion Intent** | `6` | `1` = Static, no animation noted. `5` = Subtle hover/entrance cues. `10` = Cinematic orchestration noted in every component. Default: `6` |
-
-> **How to use:** Change the numbers above to match your project's vibe. At **Creativity 1–3**, the system produces clean, quiet, Notion-like interfaces. At **Creativity 7–10**, expect inline image typography, dramatic scale contrast, and strong editorial layouts. The rest of the rules below adapt to your chosen levels.
+| Dial | Level | Setting Rationale |
+|------|-------|-------------------|
+| **Creativity** | `6` | Refined architectural layouts, deliberate asymmetric white space, disciplined typography. |
+| **Density** | `6` | Efficient financial ledger layout: balanced and legible without cognitive overload. |
+| **Variance** | `7` | Asymmetric split screens, offset balance cards, disciplined grid rhythms. |
+| **Motion Intent** | `3` | Restrained, physical-feeling micro-interactions (tactile 1px press). No theatrical animations. |
 
 ---
 
 ## 1. Visual Theme & Atmosphere
-A restrained, gallery-airy interface with confident asymmetric layouts and fluid spring-physics motion. The atmosphere is clinical yet warm — like a well-lit architecture studio where every element earns its place through function. Density is balanced (Level 4), variance runs high (Level 8) to prevent symmetrical boredom, and motion is fluid but never theatrical (Level 6). The overall impression: expensive, intentional, alive.
+The atmosphere draws inspiration from high-end architectural stationery and Japanese personal ledgers (*Kakebo*). Surfaces evoke matte mineral paper (`#F6F5F1`) and crisp cardstock (`#FFFFFF`), paired with deep graphite ink (`#1C1E21`). The aesthetic is deliberately quiet, disciplined, and functional: no neon glows, no synthetic gradients, and no digital noise.
 
-## 2. Color Palette & Roles
-- **Canvas White** (#F9FAFB) — Primary background surface. Warm-neutral, never clinical blue-white
-- **Pure Surface** (#FFFFFF) — Card and container fill. Used with whisper shadow for elevation
-- **Charcoal Ink** (#18181B) — Primary text. Zinc-950 depth — never pure black
-- **Steel Secondary** (#71717A) — Body text, descriptions, metadata. Zinc-500 warmth
-- **Muted Slate** (#94A3B8) — Tertiary text, timestamps, disabled states
-- **Whisper Border** (rgba(226,232,240,0.5)) — Card borders, structural 1px lines. Semi-transparent for depth
-- **Diffused Shadow** (rgba(0,0,0,0.05)) — Card elevation. Wide-spreading, 40px blur, -15px offset. Never harsh
+---
 
-### Accent Selection (Pick ONE per project)
-- **Emerald Signal** (#10B981) — For growth, success, positive data dashboards
-- **Electric Blue** (#3B82F6) — For productivity, SaaS, developer tools
-- **Deep Rose** (#E11D48) — For creative, editorial, fashion-adjacent projects
-- **Amber Warmth** (#F59E0B) — For community, social, warm-toned products
+## 2. Color Palette & Functional Roles
+- **Mineral Chalk Canvas** (`#F6F5F1`) — Primary background canvas. Warm, matte paper tone.
+- **Cardstock Surface** (`#FFFFFF`) — Elevated panels, form surfaces, and ledger containers.
+- **Deep Graphite Ink** (`#1C1E21`) — Primary text and structural borders. Crisp, high contrast, never pure black.
+- **Muted Stone Slate** (`#686E78`) — Secondary text, category tags, ledger notes, and field labels.
+- **Paper Hairline Border** (`rgba(28, 30, 33, 0.12)`) — 1px crisp architectural dividing lines.
+- **Sage Forest Accent** (`#2B5440`) — Primary functional accent (monto de ingresos, botón principal, balance positivo). Saturation 42%, zero glow.
+- **Muted Terracotta** (`#9E4535`) — Secondary functional indicator (monto de gastos). Matte earthy pigment, zero fluorescent red.
 
-### Banned Colors
-- Purple/Violet neon gradients — the "AI Purple" aesthetic
-- Pure Black (#000000) — always Off-Black or Zinc-950
-- Oversaturated accents above 80% saturation
-- Mixed warm/cool gray systems within one project
+### Banned Color Clichés
+- NO neon glows, cyan/violet radioactive lights, or artificial "cyberpunk" gradients.
+- NO pure black (`#000000`).
+- NO high-saturation alerts (> 60% saturation).
 
-## 3. Typography Rules
-- **Display:** `Geist`, `Satoshi`, `Cabinet Grotesk`, or `Outfit` — Track-tight (`-0.025em`), controlled fluid scale, weight-driven hierarchy (700–900). Not screaming. Leading compressed (`1.1`). Alternatives forced — `Inter` is BANNED for premium contexts
-- **Body:** Same family at weight 400 — Relaxed leading (`1.65`), 65ch max-width, Steel Secondary color (#71717A)
-- **Mono:** `Geist Mono` or `JetBrains Mono` — For code blocks, metadata, timestamps. When density exceeds Level 7, all numbers switch to monospace
-- **Scale:** Display at `clamp(2.25rem, 5vw, 3.75rem)`. Body at `1rem/1.125rem`. Mono metadata at `0.8125rem`
+---
 
-### Banned Fonts
-- `Inter` — banned everywhere in premium/creative contexts
-- Generic serif fonts (`Times New Roman`, `Georgia`, `Garamond`, `Palatino`) — BANNED. If serif is needed for editorial/creative, use only distinctive modern serifs like `Fraunces`, `Gambarino`, `Editorial New`, or `Instrument Serif`. Never use default browser serif stacks. Serif is always BANNED in dashboards or software UIs regardless
+## 3. Typographic Architecture
+- **Display / Headlines:** `Satoshi` or `Cabinet Grotesk` (Weight 700, tracking `-0.03em`). Sober, commanding, tight leading (`1.15`).
+- **Body & Controls:** `Satoshi` (Weight 400 & 500, leading `1.5`, max line length 65ch).
+- **Ledger Figures & Currency:** `JetBrains Mono` (Weight 500 & 600, tabular numeric alignment `tnum`). All monetary values (`$1,250.00`) and dates (`2026-10-06`) use monospace for alignment.
 
-## 4. Component Stylings
-* **Buttons:** Flat surface, no outer glow. Primary: accent fill with white text. Secondary: ghost/outline. Active state: `-1px translateY` or `scale(0.98)` for tactile push. Hover: subtle background shift, never glow
-* **Cards/Containers:** Generously rounded corners (`2.5rem`). Pure white fill. Whisper border (`1px`, semi-transparent). Diffused shadow (`0 20px 40px -15px rgba(0,0,0,0.05)`). Internal padding `2rem–2.5rem`. Used ONLY when elevation communicates hierarchy — high-density layouts replace cards with `border-top` dividers or negative space
-* **Inputs/Forms:** Label positioned above input. Helper text optional. Error text below in Deep Rose. Focus ring in accent color, `2px` offset. No floating labels. Standard `0.5rem` gap between label-input-error stack
-* **Navigation:** Sleek, sticky. Icons scale on hover (Dock Magnification optional). No hamburger on desktop. Clean horizontal with generous spacing
-* **Loaders:** Skeletal shimmer matching exact layout dimensions and rounded corners. Shifting light reflection across placeholder shapes. Never circular spinners
-* **Empty States:** Composed illustration or icon composition with guidance text. Never just "No data found"
-* **Error States:** Inline, contextual. Red accent underline or border. Clear recovery action
+### Banned Typography
+- NO `Inter` font.
+- NO generic default serifs (`Times New Roman`, `Georgia`).
+- NO oversized decorative script fonts.
 
-## 5. Hero Section
-The Hero is the first impression — it must be striking, creative, and never generic.
-- **Inline Image Typography:** Embed small, contextual photos or visuals directly between words or letters in the headline. Example: "We build [photo of hands typing] digital [photo of screen] products" — images sit inline at type-height, rounded, acting as visual punctuation between words. This is the signature creative technique
-- **No Overlapping Elements:** Text must never overlap images or other text. Every element has its own clear spatial zone. No z-index stacking of content layers, no absolute-positioned headlines over images. Clean separation always
-- **No Filler Text:** "Scroll to explore", "Swipe down", scroll arrow icons, bouncing chevrons, and any instructional UI chrome are BANNED. The user knows how to scroll. Let the content pull them in naturally
-- **Asymmetric Structure:** Centered Hero layouts are BANNED at this variance level. Use Split Screen (50/50), Left-Aligned text / Right visual, or Asymmetric Whitespace with large empty zones
-- **CTA Restraint:** Maximum one primary CTA button. No secondary "Learn more" links. No redundant micro-copy below the headline
+---
 
-## 6. Layout Principles
-- **Grid-First:** CSS Grid for all structural layouts. Never flexbox percentage math (`calc(33% - 1rem)` is BANNED)
-- **No Overlapping:** Elements must never overlap each other. No absolute-positioned layers stacking content on content. Every element occupies its own grid cell or flow position. Clean, separated spatial zones
-- **Feature Sections:** The "3 equal cards in a row" pattern is BANNED. Use 2-column Zig-Zag, asymmetric Bento grids (2fr 1fr 1fr), or horizontal scroll galleries
-- **Containment:** All content within `max-width: 1400px`, centered. Generous horizontal padding (`1rem` mobile, `2rem` tablet, `4rem` desktop)
-- **Full-Height:** Use `min-height: 100dvh` — never `height: 100vh` (iOS Safari address bar jump)
-- **Bento Architecture:** For feature grids, use Row 1: 3 columns | Row 2: 2 columns (70/30 split). Each tile contains a perpetual micro-animation
+## 4. Component Behaviors & Materiality
+* **Buttons:**
+  - *Primary:* Solid Deep Graphite (`#1C1E21`), text `#FFFFFF`, 6px subtle radius (`rounded-md`). Tactile `-1px translateY` on `:active`. Zero shadow glow.
+  - *Secondary / Outline:* Background `#FFFFFF`, border `1px solid rgba(28, 30, 33, 0.2)`, text `#1C1E21`.
+* **Ledger Cards & Modules:**
+  - Crisp 1px hairline border in `rgba(28, 30, 33, 0.12)`.
+  - Radius: `8px` to `12px` (`rounded-lg`). Flat surface with faint tactile shadow (`0 2px 6px rgba(0,0,0,0.03)`).
+* **Inputs & Transaction Form:**
+  - Label positioned cleanly above in `Muted Stone Slate` with small tracking.
+  - Background `#FFFFFF` with `1px solid rgba(28, 30, 33, 0.18)` border. On focus: sharp graphite border (`#1C1E21`), no fuzzy blue aura.
+* **Category Badges:**
+  - Minimal pill tags (`Alimentos`, `Servicios`, `Ocio`, `Salario`) with soft tinted background (`rgba(0,0,0,0.04)`) and dark text.
 
-## 7. Responsive Rules
-Every screen must work flawlessly across all viewports. **Responsive is not optional — it is a hard requirement. Every single element must be tested at 375px, 768px, and 1440px.**
-- **Mobile-First Collapse (< 768px):** All multi-column layouts collapse to a strict single column. `width: 100%`, `padding: 1rem`, `gap: 1.5rem`. No exceptions
-- **No Horizontal Scroll:** Horizontal overflow on mobile is a critical failure. All elements must fit within viewport width. If any element causes horizontal scroll, the design is broken
-- **Typography Scaling:** Headlines scale down gracefully via `clamp()`. Body text stays `1rem` minimum. Never shrink body below `14px`. Headlines must remain readable on 375px screens
-- **Touch Targets:** All interactive elements minimum `44px` tap target. Generous spacing between clickable items. Buttons must be full-width on mobile
-- **Image Behavior:** Hero and inline images scale proportionally. Inline typography images (photos between words) stack below the headline on mobile instead of inline
-- **Navigation:** Desktop horizontal nav collapses to a clean mobile menu (slide-in or full-screen overlay). No tiny hamburger icons without labels
-- **Cards & Grids:** Bento grids and asymmetric layouts revert to stacked single-column cards with full-width. Maintain internal padding (`1rem`)
-- **Spacing Consistency:** Vertical section gaps reduce proportionally on mobile (`clamp(3rem, 8vw, 6rem)`). Never cramped, never excessively airy
-- **Testing Viewports:** Designs must be verified at: `375px` (iPhone SE), `390px` (iPhone 14), `768px` (iPad), `1024px` (small laptop), `1440px` (desktop)
+---
 
-## 8. Motion & Interaction (Code-Phase Intent)
-> **Note:** Stitch generates static screens — it does not animate. This section documents the **intended motion behavior** so that the coding agent (Antigravity, Cursor, etc.) knows exactly how to implement animations when building the exported design into a live product.
+## 5. Strict Content Bans (Anti-Slop Directives)
+- **NO FAKE METRICS:** No "99.9% savings", no "10,000+ active users", no artificial percentage indicators.
+- **NO TESTIMONIALS OR REVIEWS:** Zero fabricated quotes, zero fake profile photos, zero 5-star badges.
+- **NO NEON OR LIGHT RAYS:** No floating neon halos, no background glowing blobs, no glassmorphism specular highlights.
+- **NO OVERLAPPING CONTENT:** Text and images never collide. Strict spatial geometry.
+- **NO FILLER COPY:** No "Empower your future", "Elevate your wealth", or "Seamless next-gen experience". Clear, direct language only.
 
-- **Physics Engine:** Spring-based exclusively. `stiffness: 100, damping: 20`. No linear easing anywhere. Premium, weighty feel on all interactive elements
-- **Perpetual Micro-Loops:** Every active dashboard component has an infinite-loop state — Pulse on status dots, Typewriter on search bars, Float on feature icons, Shimmer on loading states
-- **Staggered Orchestration:** Lists and grids mount with cascaded delays (`animation-delay: calc(var(--index) * 100ms)`). Waterfall reveals, never instant mount
-- **Layout Transitions:** Smooth re-ordering via shared element IDs. Items swap positions with physics, simulating real-time intelligence
-- **Hardware Rules:** Animate ONLY `transform` and `opacity`. Never `top`, `left`, `width`, `height`. Grain/noise filters on fixed, pointer-events-none pseudo-elements only
-- **Performance:** CPU-heavy perpetual animations isolated in microscopic leaf components. Never trigger parent re-renders. Target 60fps minimum
+---
 
-## 9. Anti-Patterns (Banned)
-- No emojis — anywhere in UI, code, or alt text
-- No `Inter` font — use `Geist`, `Outfit`, `Cabinet Grotesk`, `Satoshi`
-- No generic serif fonts (`Times New Roman`, `Georgia`, `Garamond`) — if serif is needed, use distinctive modern serifs only (`Fraunces`, `Instrument Serif`)
-- No pure black (`#000000`) — Off-Black or Zinc-950 only
-- No neon outer glows or default box-shadow glows
-- No oversaturated accent colors above 80%
-- No excessive gradient text on large headers
-- No custom mouse cursors
-- No overlapping elements — text never overlaps images or other content. Clean spatial separation always
-- No 3-column equal card layouts for features
-- No centered Hero sections (at this variance level)
-- No filler UI text: "Scroll to explore", "Swipe down", "Discover more below", scroll arrows, bouncing chevrons — all BANNED
-- No generic names: "John Doe", "Sarah Chan", "Acme", "Nexus", "SmartFlow"
-- No fake round numbers: `99.99%`, `50%`, `1234567` — use organic data: `47.2%`, `+1 (312) 847-1928`
-- No AI copywriting clichés: "Elevate", "Seamless", "Unleash", "Next-Gen", "Revolutionize"
-- No broken Unsplash links — use `picsum.photos/seed/{id}/800/600` or SVG UI Avatars
-- No generic `shadcn/ui` defaults — customize radii, colors, shadows to match this system
-- No `z-index` spam — use only for Navbar, Modal, Overlay layer contexts
-- No `h-screen` — always `min-h-[100dvh]`
-- No circular loading spinners — skeletal shimmer only
+## 6. Page Specifications
+
+### Screen A: Landing Page (Honest Minimalism)
+- **Navigation:** Minimalist header with logomark ("ATELIER / FINANCES"), links to "Método", "Categorías", and single CTA "Iniciar Sesión / Registrarse".
+- **Hero Section (Asymmetric Split):**
+  - Left column: Direct headline ("Claridad financiera sin artificios."), manifesto on why tracking categories (Alimentos, Servicios, Ocio, Salario) delivers true solvency, and single primary CTA button ("Comenzar mi registro").
+  - Right column: Clean interactive ledger card preview showing live calculations of income, expenses, and net balance with real category breakdowns.
+- **Core Principles Section:** 3-column asymmetric layout detailing the 3 fundamental tenets:
+  1. *Aislamiento estricto por usuario y privacidad.*
+  2. *Cálculo directo en base de datos con precisión decimal.*
+  3. *Control consciente por categorías esenciales.*
+- **Minimalist Footer:** Navigation links, status indicators, and copyright.
+
+### Screen B: Operational Dashboard (High Efficiency)
+- **Header Bar:** Profile badge, current period selector (Mes en curso), quick-action button "+ Nueva Transacción".
+- **Balance Overview Strip (3 Columns):**
+  - Total Ingresos (`Sage Forest` text with + symbol, monospace numbers).
+  - Total Gastos (`Muted Terracotta` text with - symbol, monospace numbers).
+  - Balance Neto Disponible (Deep Graphite, bold monospace figure).
+- **Main Operational Grid (Asymmetric 8/4 Split):**
+  - *Left Area (8 cols):* Transacciones Recientes en formato libro contable (Fecha, Descripción, Categoría con badge, Monto, Tipo). Buscador y filtros rápidos por categoría y rango de fechas.
+  - *Right Area (4 cols):* 
+    - Desglose presupuestario por categoría con barras de progreso sobrias (Alimentos, Servicios, Ocio, Salario).
+    - Módulo de registro rápido de transacción con validación en tiempo real.

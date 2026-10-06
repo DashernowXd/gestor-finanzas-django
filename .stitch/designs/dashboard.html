@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background text-on-surface antialiased" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ATELIER / LIBRO MAYOR — Kakebo Ledger System</title>
+<!-- Google Fonts: Space Grotesk & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with Forms -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-container": "#848689",
+            "tertiary": "#120000",
+            "surface-variant": "#e3e2df",
+            "surface-bright": "#faf9f5",
+            "on-background": "#1b1c1a",
+            "primary-container": "#1c1e21",
+            "cardstock": "#FFFFFF",
+            "inverse-primary": "#c6c6ca",
+            "surface": "#faf9f5",
+            "secondary-fixed": "#bfedd2",
+            "on-error": "#ffffff",
+            "surface-container-highest": "#e3e2df",
+            "on-secondary": "#ffffff",
+            "muted-terracotta": "#9E4535",
+            "tertiary-container": "#440300",
+            "paper-hairline": "rgba(28, 30, 33, 0.12)",
+            "on-secondary-container": "#436d57",
+            "on-primary": "#ffffff",
+            "surface-container": "#efeeea",
+            "surface-container-low": "#f5f4f0",
+            "primary-fixed": "#e2e2e6",
+            "inverse-on-surface": "#f2f1ed",
+            "secondary-container": "#bfedd2",
+            "sage-forest": "#2B5440",
+            "on-tertiary-container": "#cd6956",
+            "secondary": "#3e6752",
+            "on-surface-variant": "#45474a",
+            "primary-fixed-dim": "#c6c6ca",
+            "on-tertiary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-fixed-variant": "#45474a",
+            "on-secondary-fixed-variant": "#254f3b",
+            "slate": "#686E78",
+            "on-surface": "#1b1c1a",
+            "on-tertiary-fixed-variant": "#7d2c1e",
+            "on-secondary-fixed": "#002113",
+            "error-container": "#ffdad6",
+            "outline-variant": "#c6c6ca",
+            "inverse-surface": "#30312e",
+            "tertiary-fixed-dim": "#ffb4a6",
+            "on-error-container": "#93000a",
+            "secondary-fixed-dim": "#a4d1b7",
+            "surface-tint": "#5d5e62",
+            "surface-container-high": "#e9e8e4",
+            "background": "#faf9f5",
+            "surface-dim": "#dbdad6",
+            "tertiary-fixed": "#ffdad3",
+            "outline": "#76777b",
+            "primary": "#030406",
+            "on-tertiary-fixed": "#3f0300",
+            "error": "#ba1a1a",
+            "on-primary-fixed": "#1a1c1f"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "space-xl": "2.5rem",
+            "space-md": "1rem",
+            "margin": "2rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "label-sm": ["JetBrains Mono"],
+            "headline-sm": ["Space Grotesk"],
+            "body-md": ["Space Grotesk"],
+            "ledger-num": ["JetBrains Mono"],
+            "ledger-num-lg": ["JetBrains Mono"],
+            "headline-md": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "body-lg": ["Space Grotesk"],
+            "body-sm": ["Space Grotesk"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", { "lineHeight": "1.3", "letterSpacing": "0.05em", "fontWeight": "500" }],
+            "headline-sm": ["18px", { "lineHeight": "1.25", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "ledger-num": ["14px", { "lineHeight": "1.4", "fontWeight": "500" }],
+            "ledger-num-lg": ["20px", { "lineHeight": "1.3", "fontWeight": "600" }],
+            "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+            "headline-lg": ["32px", { "lineHeight": "1.15", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "body-sm": ["13px", { "lineHeight": "1.4", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      vertical-align: middle;
+      display: inline-block;
+      line-height: 1;
+    }
+    /* Architectural subtle paper texture emulation */
+    .bg-mineral-grid {
+      background-image: linear-gradient(to right, rgba(28, 30, 33, 0.025) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(28, 30, 33, 0.025) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    /* Crisp tabular alignment */
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-background font-body-md text-on-surface bg-mineral-grid">
+<!-- ================= TOP NAV BAR (SHARED COMPONENT) ================= -->
+<header class="w-full border-b border-paper-hairline bg-surface px-margin py-space-sm flex justify-between items-center max-w-full sticky top-0 z-40">
+<div class="flex items-center space-x-6">
+<div class="flex items-baseline space-x-3">
+<span class="text-headline-sm font-headline-sm tracking-tight text-primary uppercase">ATELIER / LIBRO MAYOR</span>
+<span class="inline-flex items-center px-1.5 py-0.5 border border-paper-hairline rounded text-label-sm font-label-sm text-slate bg-surface-container-low">
+          v1.0 • BASE DE DATOS LOCAL CONECTADA
+        </span>
+</div>
+<!-- Navigation links cluster based on JSON anchor -->
+<nav class="hidden md:flex items-center space-x-5 pl-4 border-l border-paper-hairline">
+<a class="text-primary border-b border-primary pb-1 font-headline-sm text-body-sm font-medium" href="#diario">Libro Diario</a>
+<a class="text-on-surface-variant pb-1 font-headline-sm text-body-sm hover:text-primary transition-colors" href="#octubre">Octubre 2026</a>
+<a class="text-on-surface-variant pb-1 font-headline-sm text-body-sm hover:text-primary transition-colors" href="#presupuesto">Presupuesto</a>
+<a class="text-on-surface-variant pb-1 font-headline-sm text-body-sm hover:text-primary transition-colors" href="#informes">Informes</a>
+</nav>
+</div>
+<!-- Center/Right controls -->
+<div class="flex items-center space-x-3">
+<!-- Period Switcher Pill -->
+<div class="hidden lg:flex items-center border border-paper-hairline rounded bg-cardstock px-2.5 py-1 space-x-2 text-label-sm font-label-sm">
+<button aria-label="Mes anterior" class="text-slate hover:text-primary transition-colors active:-translate-y-px">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+<span class="font-semibold text-primary px-1">Octubre 2026</span>
+<button aria-label="Mes siguiente" class="text-slate hover:text-primary transition-colors active:-translate-y-px">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+<span class="h-3 w-px bg-paper-hairline"></span>
+<span class="inline-flex items-center text-[10px] tracking-wider font-semibold text-secondary px-1.5 py-0.5 rounded bg-secondary-fixed/40">
+          PERÍODO ABIERTO
+        </span>
+</div>
+<!-- Trailing Icon Actions from JSON: sync, tune -->
+<div class="flex items-center space-x-1 border-r border-paper-hairline pr-2">
+<button class="p-1.5 rounded hover:bg-surface-container-high transition-colors active:-translate-y-px text-on-surface-variant" title="Sincronizar base de datos local">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container-high transition-colors active:-translate-y-px text-on-surface-variant" title="Ajustes de esquema Kakebo">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+</div>
+<!-- Trailing Secondary Action -->
+<button class="hidden sm:inline-flex items-center space-x-1.5 border border-paper-hairline bg-cardstock hover:bg-surface-container-high px-3 py-1.5 rounded text-label-sm font-label-sm text-primary transition-colors active:-translate-y-px">
+<span class="material-symbols-outlined text-[15px]">file_download</span>
+<span>Exportar CSV</span>
+</button>
+<!-- Trailing Primary Action -->
+<button class="inline-flex items-center space-x-1.5 bg-primary-container hover:bg-primary text-on-primary px-3.5 py-1.5 rounded text-label-sm font-label-sm font-medium shadow-none active:-translate-y-px transition-all">
+<span>+ Asentar Transacción</span>
+</button>
+<!-- Avatar from JSON -->
+<div class="w-7 h-7 rounded border border-paper-hairline bg-surface-container flex items-center justify-center text-label-sm font-label-sm text-slate uppercase" title="Avatar de usuario de Atelier">
+        AK
+      </div>
+</div>
+</header>
+<!-- ================= MAIN CANVAS ================= -->
+<main class="flex-1 w-full max-w-[1600px] mx-auto px-4 md:px-margin py-6 flex flex-col gap-6">
+<!-- SUBHEADER / AUDIT BANNER -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-paper-hairline gap-2">
+<div>
+<h1 class="text-headline-md font-headline-md text-primary tracking-tight">Libro Mayor de Flujo de Caja</h1>
+<p class="text-body-sm font-body-sm text-slate">Registro canónico bajo metodología Kakebo • Auditoría de saldo continua con libro cerrado al 31 de Octubre</p>
+</div>
+<div class="flex items-center space-x-4 text-label-sm font-label-sm text-slate self-start sm:self-auto">
+<span class="inline-flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+          LEDGER SALDO: CUADRADO
+        </span>
+<span class="text-paper-hairline">|</span>
+<span>MONEDA: USD ($)</span>
+</div>
+</div>
+<!-- 1. FINANCIAL SUMMARY STRIP (3 STRUCTURAL CARDS IN ASYMMETRIC GRID) -->
+<section aria-label="Resumen de balance general" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Card 1: Ingresos Totales -->
+<div class="bg-cardstock border border-paper-hairline p-space-md rounded flex flex-col justify-between hover:border-slate/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-slate tracking-wider">INGRESOS TOTALES</span>
+<span class="material-symbols-outlined text-sage-forest text-[18px]">trending_up</span>
+</div>
+<div class="my-3">
+<span class="text-headline-lg font-ledger-num text-sage-forest tabular-nums tracking-tight">+$4,200.00</span>
+</div>
+<div class="pt-2 border-t border-paper-hairline flex items-center justify-between text-label-sm font-label-sm text-slate">
+<span>1 registro de salario consolidado</span>
+<span class="text-secondary font-medium">100% cobrado</span>
+</div>
+</div>
+<!-- Card 2: Egresos Totales -->
+<div class="bg-cardstock border border-paper-hairline p-space-md rounded flex flex-col justify-between hover:border-slate/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-slate tracking-wider">EGRESOS TOTALES</span>
+<span class="material-symbols-outlined text-muted-terracotta text-[18px]">trending_down</span>
+</div>
+<div class="my-3">
+<span class="text-headline-lg font-ledger-num text-muted-terracotta tabular-nums tracking-tight">-$2,315.50</span>
+</div>
+<div class="pt-2 border-t border-paper-hairline flex items-center justify-between text-label-sm font-label-sm text-slate">
+<span>18 transacciones registradas</span>
+<span class="text-muted-terracotta font-medium">55.1% del límite</span>
+</div>
+</div>
+<!-- Card 3: Balance Neto Disponible -->
+<div class="bg-cardstock border border-paper-hairline p-space-md rounded flex flex-col justify-between hover:border-slate/40 transition-colors">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-slate tracking-wider">BALANCE NETO DISPONIBLE</span>
+<span class="material-symbols-outlined text-primary text-[18px]">account_balance_wallet</span>
+</div>
+<div class="my-3">
+<span class="text-headline-lg font-ledger-num text-primary tabular-nums tracking-tight">$1,884.50</span>
+</div>
+<div class="pt-2 border-t border-paper-hairline flex items-center justify-between text-label-sm font-label-sm text-slate">
+<span>Calculado en base de datos</span>
+<span class="font-medium text-primary">Solvencia 44.8%</span>
+</div>
+</div>
+</section>
+<!-- 2. PRIMARY CONTENT AREA (ASYMMETRIC 8/4 GRID SPLIT) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- ================= LEFT COLUMN: 8 COLS (LIBRO DIARIO DE TRANSACCIONES) ================= -->
+<section class="lg:col-span-8 flex flex-col gap-4">
+<!-- Filter & Control Bar -->
+<div class="bg-cardstock border border-paper-hairline p-3 rounded flex flex-col md:flex-row md:items-center justify-between gap-3">
+<!-- Search input -->
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate text-[18px]">search</span>
+<input class="w-full pl-8 pr-3 py-1.5 text-body-sm font-body-sm bg-surface-container-low border border-paper-hairline rounded focus:bg-cardstock focus:border-primary focus:ring-0 text-on-surface placeholder:text-slate transition-all" placeholder="Buscar concepto, comercio..." type="text"/>
+</div>
+<!-- Category filter pills -->
+<div class="flex items-center space-x-1.5 overflow-x-auto pb-1 md:pb-0 text-label-sm font-label-sm">
+<button class="px-2.5 py-1 bg-primary text-on-primary rounded font-medium">Todas (19)</button>
+<button class="px-2.5 py-1 bg-surface-container-low border border-paper-hairline text-on-surface-variant hover:text-primary rounded transition-colors">Alimentos (8)</button>
+<button class="px-2.5 py-1 bg-surface-container-low border border-paper-hairline text-on-surface-variant hover:text-primary rounded transition-colors">Servicios (4)</button>
+<button class="px-2.5 py-1 bg-surface-container-low border border-paper-hairline text-on-surface-variant hover:text-primary rounded transition-colors">Ocio (6)</button>
+<button class="px-2.5 py-1 bg-surface-container-low border border-paper-hairline text-on-surface-variant hover:text-primary rounded transition-colors">Salario (1)</button>
+</div>
+<!-- Date & Sort Selector buttons -->
+<div class="flex items-center space-x-2 pt-1 md:pt-0 border-t md:border-t-0 md:border-l border-paper-hairline md:pl-3">
+<button class="p-1.5 rounded border border-paper-hairline bg-cardstock hover:bg-surface-container text-slate text-label-sm font-label-sm inline-flex items-center gap-1 active:-translate-y-px transition-colors" title="Filtrar por rango de fechas">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span class="hidden sm:inline">Rango</span>
+</button>
+<button class="p-1.5 rounded border border-paper-hairline bg-cardstock hover:bg-surface-container text-slate text-label-sm font-label-sm inline-flex items-center gap-1 active:-translate-y-px transition-colors" title="Ordenar registros">
+<span class="material-symbols-outlined text-[16px]">swap_vert</span>
+<span class="hidden sm:inline">Fecha desc</span>
+</button>
+</div>
+</div>
+<!-- TRANSACTION LEDGER TABLE (Architectural & dense) -->
+<div class="bg-cardstock border border-paper-hairline rounded overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-paper-hairline bg-surface-container-low text-label-sm font-label-sm text-slate uppercase">
+<th class="py-2.5 px-4 font-semibold w-28" scope="col">FECHA</th>
+<th class="py-2.5 px-4 font-semibold" scope="col">DESCRIPCIÓN / BENEFICIARIO</th>
+<th class="py-2.5 px-3 font-semibold w-32" scope="col">CATEGORÍA</th>
+<th class="py-2.5 px-3 font-semibold w-24" scope="col">TIPO</th>
+<th class="py-2.5 px-4 font-semibold text-right w-32" scope="col">MONTO</th>
+<th class="py-2.5 px-3 font-semibold text-center w-20" scope="col">ACCIONES</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-paper-hairline text-body-sm font-body-sm">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4 font-ledger-num text-slate tabular-nums">2026-10-06</td>
+<td class="py-3 px-4 text-primary font-medium">Compra semanal de despensa orgánica</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container border border-paper-hairline text-on-surface">
+                      Alimentos
+                    </span>
+</td>
+<td class="py-3 px-3 text-slate text-label-sm font-label-sm">Gasto</td>
+<td class="py-3 px-4 text-right font-ledger-num tabular-nums text-muted-terracotta font-semibold">-$142.80</td>
+<td class="py-3 px-3 text-center">
+<button class="opacity-0 group-hover:opacity-100 text-slate hover:text-primary transition-opacity p-1">
+<span class="material-symbols-outlined text-[16px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4 font-ledger-num text-slate tabular-nums">2026-10-05</td>
+<td class="py-3 px-4 text-primary font-medium">Recibo de electricidad y agua de red</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container border border-paper-hairline text-on-surface">
+                      Servicios
+                    </span>
+</td>
+<td class="py-3 px-3 text-slate text-label-sm font-label-sm">Gasto</td>
+<td class="py-3 px-4 text-right font-ledger-num tabular-nums text-muted-terracotta font-semibold">-$84.20</td>
+<td class="py-3 px-3 text-center">
+<button class="opacity-0 group-hover:opacity-100 text-slate hover:text-primary transition-opacity p-1">
+<span class="material-symbols-outlined text-[16px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4 font-ledger-num text-slate tabular-nums">2026-10-04</td>
+<td class="py-3 px-4 text-primary font-medium">Librería técnica y papelería</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container border border-paper-hairline text-on-surface">
+                      Ocio
+                    </span>
+</td>
+<td class="py-3 px-3 text-slate text-label-sm font-label-sm">Gasto</td>
+<td class="py-3 px-4 text-right font-ledger-num tabular-nums text-muted-terracotta font-semibold">-$38.50</td>
+<td class="py-3 px-3 text-center">
+<button class="opacity-0 group-hover:opacity-100 text-slate hover:text-primary transition-opacity p-1">
+<span class="material-symbols-outlined text-[16px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4 font-ledger-num text-slate tabular-nums">2026-10-03</td>
+<td class="py-3 px-4 text-primary font-medium">Salida cena fin de semana</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container border border-paper-hairline text-on-surface">
+                      Ocio
+                    </span>
+</td>
+<td class="py-3 px-3 text-slate text-label-sm font-label-sm">Gasto</td>
+<td class="py-3 px-4 text-right font-ledger-num tabular-nums text-muted-terracotta font-semibold">-$65.00</td>
+<td class="py-3 px-3 text-center">
+<button class="opacity-0 group-hover:opacity-100 text-slate hover:text-primary transition-opacity p-1">
+<span class="material-symbols-outlined text-[16px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4 font-ledger-num text-slate tabular-nums">2026-10-02</td>
+<td class="py-3 px-4 text-primary font-medium">Suscripción de software de diseño</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container border border-paper-hairline text-on-surface">
+                      Servicios
+                    </span>
+</td>
+<td class="py-3 px-3 text-slate text-label-sm font-label-sm">Gasto</td>
+<td class="py-3 px-4 text-right font-ledger-num tabular-nums text-muted-terracotta font-semibold">-$29.00</td>
+<td class="py-3 px-3 text-center">
+<button class="opacity-0 group-hover:opacity-100 text-slate hover:text-primary transition-opacity p-1">
+<span class="material-symbols-outlined text-[16px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="hover:bg-secondary-fixed/20 transition-colors group bg-secondary-fixed/10">
+<td class="py-3 px-4 font-ledger-num text-slate tabular-nums">2026-10-01</td>
+<td class="py-3 px-4 text-primary font-medium">Nómina mensual ejecutiva</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-secondary-fixed/50 border border-secondary/30 text-sage-forest font-semibold">
+                      Salario
+                    </span>
+</td>
+<td class="py-3 px-3 text-sage-forest text-label-sm font-label-sm font-medium">Ingreso</td>
+<td class="py-3 px-4 text-right font-ledger-num tabular-nums text-sage-forest font-bold">+$4,200.00</td>
+<td class="py-3 px-3 text-center">
+<button class="opacity-0 group-hover:opacity-100 text-slate hover:text-primary transition-opacity p-1">
+<span class="material-symbols-outlined text-[16px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 7 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4 font-ledger-num text-slate tabular-nums">2026-09-30</td>
+<td class="py-3 px-4 text-primary font-medium">Mantenimiento preventivo bicicleta</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container border border-paper-hairline text-on-surface">
+                      Servicios
+                    </span>
+</td>
+<td class="py-3 px-3 text-slate text-label-sm font-label-sm">Gasto</td>
+<td class="py-3 px-4 text-right font-ledger-num tabular-nums text-muted-terracotta font-semibold">-$45.00</td>
+<td class="py-3 px-3 text-center">
+<button class="opacity-0 group-hover:opacity-100 text-slate hover:text-primary transition-opacity p-1">
+<span class="material-symbols-outlined text-[16px]">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 8 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4 font-ledger-num text-slate tabular-nums">2026-09-28</td>
+<td class="py-3 px-4 text-primary font-medium">Café de especialidad tostado local</td>
+<td class="py-3 px-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container border border-paper-hairline text-on-surface">
+                      Alimentos
+                    </span>
+</td>
+<td class="py-3 px-3 text-slate text-label-sm font-label-sm">Gasto</td>
+<td class="py-3 px-4 text-right font-ledger-num tabular-nums text-muted-terracotta font-semibold">-$18.00</td>
+<td class="py-3 px-3 text-center">
+<button class="opacity-0 group-hover:opacity-100 text-slate hover:text-primary transition-opacity p-1">
+<span class="material-symbols-outlined text-[16px]">more_horiz</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Minimalist Table Footer with Pagination Controls -->
+<div class="px-4 py-3 bg-surface-container-low border-t border-paper-hairline flex flex-col sm:flex-row items-center justify-between gap-3 text-label-sm font-label-sm text-slate">
+<div>
+<span>Mostrando 1–8 de 19 transacciones contables • Precisión decimal verificada</span>
+</div>
+<div class="flex items-center space-x-2">
+<button class="px-2.5 py-1 border border-paper-hairline rounded bg-cardstock hover:bg-surface text-on-surface-variant disabled:opacity-40 transition-colors" disabled="">
+                Anterior
+              </button>
+<span class="px-2 py-1 text-primary font-medium">Página 1 de 3</span>
+<button class="px-2.5 py-1 border border-paper-hairline rounded bg-cardstock hover:bg-surface text-on-surface-variant transition-colors active:-translate-y-px">
+                Siguiente
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= RIGHT COLUMN: 4 COLS (DISTRIBUCIÓN Y ASIENTO RÁPIDO) ================= -->
+<aside class="lg:col-span-4 flex flex-col gap-6">
+<!-- Module A: Desglose Presupuestario Canónico (Distribución por Sobres Kakebo) -->
+<div class="bg-cardstock border border-paper-hairline rounded p-5 flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-paper-hairline pb-2.5">
+<h2 class="text-label-sm font-label-sm uppercase tracking-wider text-slate font-bold">DISTRIBUCIÓN POR SOBRES</h2>
+<span class="text-label-sm font-label-sm text-slate">Meta 80/20</span>
+</div>
+<div class="space-y-4">
+<!-- Envelope 1: Alimentos -->
+<div class="space-y-1.5">
+<div class="flex justify-between text-body-sm font-body-sm">
+<span class="font-medium text-primary">Alimentos</span>
+<span class="font-ledger-num text-slate tabular-nums text-label-sm font-label-sm">$680.00 / $800.00</span>
+</div>
+<!-- Track -->
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-muted-terracotta" style="width: 85.0%;"></div>
+</div>
+<div class="flex justify-between text-[11px] text-slate font-label-sm">
+<span>85.0% utilizado</span>
+<span>Restan $120.00</span>
+</div>
+</div>
+<!-- Envelope 2: Servicios Básicos -->
+<div class="space-y-1.5">
+<div class="flex justify-between text-body-sm font-body-sm">
+<span class="font-medium text-primary">Servicios Básicos</span>
+<span class="font-ledger-num text-slate tabular-nums text-label-sm font-label-sm">$940.00 / $950.00</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-muted-terracotta" style="width: 98.9%;"></div>
+</div>
+<div class="flex justify-between text-[11px] text-slate font-label-sm">
+<span class="text-muted-terracotta font-medium">98.9% utilizado (Límite crítico)</span>
+<span>Restan $10.00</span>
+</div>
+</div>
+<!-- Envelope 3: Ocio Medido -->
+<div class="space-y-1.5">
+<div class="flex justify-between text-body-sm font-body-sm">
+<span class="font-medium text-primary">Ocio Medido</span>
+<span class="font-ledger-num text-slate tabular-nums text-label-sm font-label-sm">$520.00 / $600.00</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-slate" style="width: 86.6%;"></div>
+</div>
+<div class="flex justify-between text-[11px] text-slate font-label-sm">
+<span>86.6% utilizado</span>
+<span>Restan $80.00</span>
+</div>
+</div>
+<!-- Envelope 4: Salario / Asignación -->
+<div class="space-y-1.5 pt-1">
+<div class="flex justify-between text-body-sm font-body-sm">
+<span class="font-medium text-sage-forest">Salario / Asignación Total</span>
+<span class="font-ledger-num text-sage-forest tabular-nums text-label-sm font-label-sm">100% asignado</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-sage-forest" style="width: 100%;"></div>
+</div>
+<div class="flex justify-between text-[11px] text-slate font-label-sm">
+<span>Sin desvíos no categorizados</span>
+<span class="text-secondary font-medium">Cuadrado</span>
+</div>
+</div>
+</div>
+<div class="pt-3 border-t border-paper-hairline flex items-center justify-between text-label-sm font-label-sm text-slate">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+              4 sobres cerrados según regla Kakebo.
+            </span>
+<a class="text-primary hover:underline" href="#ajuste-sobres">Rebalancear</a>
+</div>
+</div>
+<!-- Module B: Formulario de Asiento Rápido -->
+<div class="bg-cardstock border border-paper-hairline rounded p-5 flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-paper-hairline pb-2.5">
+<h2 class="text-label-sm font-label-sm uppercase tracking-wider text-slate font-bold">NUEVO ASIENTO CONTABLE</h2>
+<span class="inline-flex items-center gap-1 text-label-sm font-label-sm text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> LISTO
+            </span>
+</div>
+<form class="space-y-4" onsubmit="event.preventDefault();">
+<!-- Segmented Tab Toggle for Tipo: [GASTO] (active) | [INGRESO] -->
+<div>
+<span class="block text-label-sm font-label-sm text-slate mb-1">TIPO DE OPERACIÓN</span>
+<div class="grid grid-cols-2 p-1 bg-surface-container-low border border-paper-hairline rounded">
+<button class="py-1 text-label-sm font-label-sm font-semibold rounded bg-primary text-on-primary shadow-sm transition-all" type="button">
+                  GASTO
+                </button>
+<button class="py-1 text-label-sm font-label-sm font-medium rounded text-slate hover:text-primary transition-all" type="button">
+                  INGRESO
+                </button>
+</div>
+</div>
+<!-- Input: Monto ($ 0.00 en tipografía mono grande) -->
+<div>
+<label class="block text-label-sm font-label-sm text-slate mb-1" for="asiento-monto">MONTO CONTABLE</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 font-ledger-num text-slate text-body-lg">$</span>
+<input class="w-full pl-8 pr-3 py-2 bg-surface-container-low border border-paper-hairline rounded text-headline-sm font-ledger-num text-primary focus:bg-cardstock focus:border-primary focus:ring-0 tabular-nums placeholder:text-slate/40 transition-colors" id="asiento-monto" placeholder="0.00" type="text" value=""/>
+</div>
+</div>
+<!-- Dropdown/Select: Categoría canónica -->
+<div>
+<label class="block text-label-sm font-label-sm text-slate mb-1" for="asiento-categoria">CATEGORÍA KAKEBO</label>
+<select class="w-full px-3 py-2 bg-surface-container-low border border-paper-hairline rounded text-body-sm font-body-sm text-primary focus:bg-cardstock focus:border-primary focus:ring-0 transition-colors" id="asiento-categoria">
+<option value="alimentos">Alimentos (Supervivencia / Insumos diarios)</option>
+<option value="servicios">Servicios Básicos (Vivienda, red, suscripción)</option>
+<option value="ocio">Ocio Medido (Cultura, gastronomía recreativa)</option>
+<option value="salario">Salario (Entrada directa de nómina)</option>
+</select>
+</div>
+<!-- Input: Fecha contable -->
+<div>
+<label class="block text-label-sm font-label-sm text-slate mb-1" for="asiento-fecha">FECHA CONTABLE (NO FUTURA)</label>
+<input class="w-full px-3 py-1.5 bg-surface-container-low border border-paper-hairline rounded font-ledger-num text-body-sm text-primary focus:bg-cardstock focus:border-primary focus:ring-0 transition-colors" id="asiento-fecha" max="2026-10-06" type="date" value="2026-10-06"/>
+</div>
+<!-- Input: Concepto o descripción -->
+<div>
+<label class="block text-label-sm font-label-sm text-slate mb-1" for="asiento-concepto">CONCEPTO O BENEFICIARIO</label>
+<input class="w-full px-3 py-1.5 bg-surface-container-low border border-paper-hairline rounded text-body-sm font-body-sm text-primary placeholder:text-slate/50 focus:bg-cardstock focus:border-primary focus:ring-0 transition-colors" id="asiento-concepto" placeholder="Ej. Compra de insumos..." type="text"/>
+</div>
+<!-- Action Button -->
+<div class="pt-2">
+<button class="w-full py-2.5 px-4 bg-primary text-on-primary rounded text-label-sm font-label-sm font-medium tracking-wide active:-translate-y-px transition-all flex items-center justify-center space-x-2" type="submit">
+<span class="material-symbols-outlined text-[16px]">edit_note</span>
+<span>Registrar en Libro</span>
+</button>
+<p class="text-[11px] text-center text-slate font-label-sm mt-1.5">Impacto atómico en balance y archivo TSV local</p>
+</div>
+</form>
+</div>
+</aside>
+</div>
+</main>
+<!-- ================= FOOTER (SHARED COMPONENT) ================= -->
+<footer class="w-full border-t border-paper-hairline bg-surface-container-low px-margin py-space-sm flex flex-col md:flex-row justify-between items-center text-label-sm font-label-sm text-on-surface-variant gap-3 mt-8">
+<div class="flex items-center space-x-2 text-slate">
+<span class="tracking-widest uppercase">ATELIER LEDGER SYSTEM · KAKEBO METHOD · DB SYNC: OK (0.12s)</span>
+<span class="hidden sm:inline text-paper-hairline">|</span>
+<span class="hidden sm:inline font-ledger-num text-[10px]">HASH: #4f82a9</span>
+</div>
+<!-- Mandatory Footer Links from JSON Anchor -->
+<div class="flex items-center space-x-4">
+<a class="text-slate font-label-sm hover:text-primary transition-colors" href="#auditoria">Auditoría</a>
+<a class="text-slate font-label-sm hover:text-primary transition-colors" href="#copia">Copia Local</a>
+<a class="text-slate font-label-sm hover:text-primary transition-colors" href="#esquema">Esquema TSV</a>
+<a class="text-slate font-label-sm hover:text-primary transition-colors" href="#atajos">Atajos de Teclado</a>
+</div>
+</footer>
+</body></html>

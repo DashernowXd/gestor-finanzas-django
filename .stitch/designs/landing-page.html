@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atelier Finanzas — Contabilidad Deliberada</title>
+<!-- Fonts: Space Grotesk & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed": "#ffdad3",
+            "tertiary": "#120000",
+            "on-secondary-fixed-variant": "#254f3b",
+            "surface-tint": "#5d5e62",
+            "on-primary-container": "#848689",
+            "sage-forest": "#2B5440",
+            "surface-dim": "#dbdad6",
+            "cardstock": "#FFFFFF",
+            "surface-container": "#efeeea",
+            "inverse-primary": "#c6c6ca",
+            "outline-variant": "#c6c6ca",
+            "outline": "#76777b",
+            "slate": "#686E78",
+            "primary-fixed": "#e2e2e6",
+            "on-error-container": "#93000a",
+            "primary-fixed-dim": "#c6c6ca",
+            "on-tertiary-fixed-variant": "#7d2c1e",
+            "on-primary-fixed": "#1a1c1f",
+            "surface-variant": "#e3e2df",
+            "on-surface-variant": "#45474a",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f5f4f0",
+            "on-tertiary-fixed": "#3f0300",
+            "secondary-fixed": "#bfedd2",
+            "secondary-container": "#bfedd2",
+            "on-tertiary-container": "#cd6956",
+            "inverse-on-surface": "#f2f1ed",
+            "secondary": "#3e6752",
+            "on-error": "#ffffff",
+            "primary-container": "#1c1e21",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#440300",
+            "on-primary": "#ffffff",
+            "primary": "#030406",
+            "on-background": "#1b1c1a",
+            "surface-container-highest": "#e3e2df",
+            "secondary-fixed-dim": "#a4d1b7",
+            "error-container": "#ffdad6",
+            "paper-hairline": "rgba(28, 30, 33, 0.12)",
+            "muted-terracotta": "#9E4535",
+            "on-secondary-container": "#436d57",
+            "on-tertiary": "#ffffff",
+            "tertiary-fixed-dim": "#ffb4a6",
+            "on-primary-fixed-variant": "#45474a",
+            "surface-container-high": "#e9e8e4",
+            "background": "#faf9f5",
+            "on-secondary-fixed": "#002113",
+            "surface": "#faf9f5",
+            "on-surface": "#1b1c1a",
+            "surface-bright": "#faf9f5",
+            "inverse-surface": "#30312e",
+            "error": "#ba1a1a"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "space-xl": "2.5rem",
+            "margin": "2rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem",
+            "space-md": "1rem",
+            "gutter": "1.5rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "headline-sm": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "label-sm": ["JetBrains Mono"],
+            "headline-md": ["Space Grotesk"],
+            "body-md": ["Space Grotesk"],
+            "body-sm": ["Space Grotesk"],
+            "ledger-num": ["JetBrains Mono"],
+            "body-lg": ["Space Grotesk"],
+            "ledger-num-lg": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "headline-sm": ["18px", { "lineHeight": "1.25", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-lg": ["32px", { "lineHeight": "1.15", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+            "label-sm": ["11px", { "lineHeight": "1.3", "letterSpacing": "0.05em", "fontWeight": "500" }],
+            "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "body-sm": ["13px", { "lineHeight": "1.4", "fontWeight": "400" }],
+            "ledger-num": ["14px", { "lineHeight": "1.4", "fontWeight": "500" }],
+            "body-lg": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "ledger-num-lg": ["20px", { "lineHeight": "1.3", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface antialiased selection:bg-surface-container selection:text-primary flex flex-col min-h-screen">
+<!-- TopNavBar (Shared Component JSON Blueprint) -->
+<header class="bg-background dark:bg-primary-container text-primary dark:text-inverse-primary docked full-width top-0 sticky z-40 border-b border-outline-variant/30 dark:border-outline/20">
+<div class="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between w-full">
+<!-- Brand & Ledger Version Anchor -->
+<div class="flex items-baseline space-x-3">
+<a class="text-headline-sm font-headline-sm font-bold tracking-tight text-primary dark:text-inverse-primary" href="#">
+          Atelier Finanzas
+        </a>
+<span class="text-label-sm font-label-sm text-outline border border-outline-variant/60 px-1.5 py-0.5 rounded">
+          LIBRO v1.0
+        </span>
+</div>
+<!-- Navigation Links from JSON -->
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-primary dark:text-inverse-primary font-medium border-b-2 border-primary dark:border-inverse-primary pb-1 text-body-sm font-body-sm active:-translate-y-px transition-transform duration-100 ease-out" href="#principios">
+          Principios
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-inverse-primary transition-colors text-body-sm font-body-sm active:-translate-y-px transition-transform duration-100 ease-out" href="#metodologia">
+          Metodología
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-inverse-primary transition-colors text-body-sm font-body-sm active:-translate-y-px transition-transform duration-100 ease-out" href="#manifiesto">
+          Manifiesto
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-inverse-primary transition-colors text-body-sm font-body-sm active:-translate-y-px transition-transform duration-100 ease-out" href="#especificaciones">
+          Especificaciones
+        </a>
+</nav>
+<!-- Actions -->
+<div class="flex items-center space-x-4">
+<button class="hidden sm:inline-block text-body-sm font-body-sm text-on-surface-variant hover:text-primary transition-colors px-3 py-1.5">
+          Acceder
+        </button>
+<button class="bg-primary-container text-on-primary hover:bg-primary px-4 py-2 rounded-lg text-body-sm font-body-sm font-medium border border-paper-hairline shadow-sm active:-translate-y-px transition-all">
+          Comenzar Libro
+        </button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow">
+<!-- Hero Asimétrico (7/5 Desktop Grid) -->
+<section class="max-w-7xl mx-auto px-6 md:px-12 pt-16 pb-20 border-b border-paper-hairline" id="manifiesto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<!-- Left Column: Manifiesto & Acciones (7 cols) -->
+<div class="lg:col-span-7 flex flex-col justify-center space-y-6 pt-4">
+<div class="flex items-center space-x-2">
+<span class="w-2 h-2 rounded-full bg-sage-forest"></span>
+<span class="text-label-sm font-label-sm text-slate uppercase tracking-wider">
+              METODOLOGÍA CONTABLE DELIBERADA
+            </span>
+</div>
+<h1 class="text-headline-lg font-headline-lg text-primary max-w-xl text-balance">
+            Control financiero deliberado, sin artificios.
+          </h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-xl leading-relaxed">
+            Un sistema personal concebido para quienes valoran la precisión sobre la simulación. Al distribuir cada flujo de caja exclusivamente en cuatro sobres esenciales —Alimentos, Servicios, Ocio y Salario—, obtienes solvencia inmediata, disciplina de gasto y absoluta claridad mental.
+          </p>
+<div class="pt-4 flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-5">
+<a class="bg-primary-container text-on-primary px-6 py-3 rounded-lg text-body-md font-body-md font-medium border border-paper-hairline shadow-[0_2px_4px_rgba(0,0,0,0.06)] hover:bg-primary active:translate-y-0.5 transition-all text-center" href="#registro">
+              Comenzar Registro
+            </a>
+<div class="text-label-sm font-label-sm text-slate flex flex-col justify-center">
+<span>Precisión decimal estricta · Base Kakebo</span>
+<span class="text-outline">Sin intermediarios bancarios forzosos</span>
+</div>
+</div>
+<div class="pt-6 border-t border-paper-hairline max-w-lg">
+<div class="grid grid-cols-3 gap-4 text-left">
+<div>
+<span class="text-label-sm font-label-sm text-slate block">ESTRUCTURA</span>
+<span class="text-body-sm font-body-sm font-medium text-primary">Cuatro Sobres</span>
+</div>
+<div>
+<span class="text-label-sm font-label-sm text-slate block">ARQUITECTURA</span>
+<span class="text-body-sm font-body-sm font-medium text-primary">Cálculo en DB</span>
+</div>
+<div>
+<span class="text-label-sm font-label-sm text-slate block">SOBERANÍA</span>
+<span class="text-body-sm font-body-sm font-medium text-primary">Exportación CSV</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Physical Ledger Preview Card (5 cols) -->
+<div class="lg:col-span-5">
+<div class="bg-cardstock rounded-xl border border-paper-hairline p-6 shadow-[0_4px_12px_rgba(0,0,0,0.03)] relative">
+<!-- Ledger Card Header -->
+<div class="flex items-center justify-between pb-4 border-b border-paper-hairline">
+<div>
+<span class="text-label-sm font-label-sm text-slate block">VISTA PREVIA DEL LIBRO</span>
+<h2 class="text-body-sm font-body-sm font-semibold text-primary">BALANCE GENERAL · PERÍODO ACTUAL</h2>
+</div>
+<div class="text-right">
+<span class="text-label-sm font-label-sm text-slate block">FECHA CONTABLE</span>
+<span class="text-label-sm font-label-sm font-semibold text-sage-forest bg-secondary-fixed/30 px-2 py-0.5 rounded">
+                  2026-10-06 · CERRADO
+                </span>
+</div>
+</div>
+<!-- Totals Metrics Row (3-split) -->
+<div class="grid grid-cols-3 gap-2 py-5 border-b border-paper-hairline text-left">
+<div>
+<span class="text-label-sm font-label-sm text-slate block">Ingreso Total</span>
+<span class="text-ledger-num font-ledger-num text-sage-forest font-semibold block mt-0.5">
+                  +$3,850.00
+                </span>
+</div>
+<div class="border-l border-paper-hairline pl-3">
+<span class="text-label-sm font-label-sm text-slate block">Egresos</span>
+<span class="text-ledger-num font-ledger-num text-muted-terracotta font-semibold block mt-0.5">
+                  -$2,140.00
+                </span>
+</div>
+<div class="border-l border-paper-hairline pl-3">
+<span class="text-label-sm font-label-sm text-slate block">Neto Disponible</span>
+<span class="text-ledger-num font-ledger-num text-primary font-bold block mt-0.5">
+                  $1,710.00
+                </span>
+</div>
+</div>
+<!-- Canon Category Allocations Breakdown -->
+<div class="pt-4 pb-2">
+<span class="text-label-sm font-label-sm text-slate uppercase tracking-wider block mb-3">
+                Distribución por Sobres Canónicos
+              </span>
+<div class="space-y-3">
+<!-- Salario -->
+<div>
+<div class="flex justify-between text-body-sm font-body-sm mb-1">
+<span class="font-medium text-primary">Salario Neto</span>
+<span class="font-ledger-num text-sage-forest">+$3,850.00</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-sage-forest h-1.5 rounded-full" style="width: 100%"></div>
+</div>
+<div class="flex justify-between text-label-sm font-label-sm text-outline mt-0.5">
+<span>Flujo principal</span>
+<span>100% asignado</span>
+</div>
+</div>
+<!-- Alimentos -->
+<div>
+<div class="flex justify-between text-body-sm font-body-sm mb-1">
+<span class="font-medium text-primary">Alimentos</span>
+<span class="font-ledger-num text-muted-terracotta">-$680.00</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-muted-terracotta h-1.5 rounded-full" style="width: 85%"></div>
+</div>
+<div class="flex justify-between text-label-sm font-label-sm text-outline mt-0.5">
+<span>Presupuesto: $800.00</span>
+<span>85.0% utilizado</span>
+</div>
+</div>
+<!-- Servicios -->
+<div>
+<div class="flex justify-between text-body-sm font-body-sm mb-1">
+<span class="font-medium text-primary">Servicios Básicos</span>
+<span class="font-ledger-num text-muted-terracotta">-$940.00</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-muted-terracotta h-1.5 rounded-full" style="width: 98.9%"></div>
+</div>
+<div class="flex justify-between text-label-sm font-label-sm text-outline mt-0.5">
+<span>Presupuesto: $950.00</span>
+<span>98.9% utilizado</span>
+</div>
+</div>
+<!-- Ocio -->
+<div>
+<div class="flex justify-between text-body-sm font-body-sm mb-1">
+<span class="font-medium text-primary">Ocio Medido</span>
+<span class="font-ledger-num text-muted-terracotta">-$520.00</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-muted-terracotta h-1.5 rounded-full" style="width: 86.6%"></div>
+</div>
+<div class="flex justify-between text-label-sm font-label-sm text-outline mt-0.5">
+<span>Presupuesto: $600.00</span>
+<span>86.6% utilizado</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Micro-registro Reciente -->
+<div class="mt-4 pt-3 border-t border-paper-hairline">
+<span class="text-label-sm font-label-sm text-slate uppercase block mb-2">Entradas Recientes</span>
+<div class="space-y-1.5 text-body-sm font-body-sm">
+<div class="flex justify-between items-center py-1 border-b border-paper-hairline/60">
+<span class="text-label-sm font-label-sm text-outline">2026-10-06</span>
+<span class="text-on-surface">Mercado Local Central</span>
+<span class="font-ledger-num text-muted-terracotta">-$42.50</span>
+</div>
+<div class="flex justify-between items-center py-1">
+<span class="text-label-sm font-label-sm text-outline">2026-10-06</span>
+<span class="text-on-surface">Depósito de Nómina Quincenal</span>
+<span class="font-ledger-num text-sage-forest">+$1,925.00</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Principios Fundamentales (3 Columnas con Bordes Arquitectónicos) -->
+<section class="max-w-7xl mx-auto px-6 md:px-12 py-20 border-b border-paper-hairline" id="principios">
+<div class="mb-12">
+<span class="text-label-sm font-label-sm text-slate uppercase tracking-wider block">DISCIPLINA OPERATIVA</span>
+<h2 class="text-headline-md font-headline-md text-primary mt-1">
+          Tres Principios Inquebrantables
+        </h2>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-xl mt-2">
+          Eliminamos el ruido analítico y las gráficas superfluas para enfocarnos en la certidumbre matemática del flujo real.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Principio 01 -->
+<div class="bg-cardstock p-8 rounded-xl border border-paper-hairline flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-6">
+<span class="text-label-sm font-label-sm text-slate">01 / ARQUITECTURA</span>
+<span class="material-symbols-outlined text-primary text-xl" data-icon="lock">lock</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-primary mb-3">
+              Aislamiento Estricto
+            </h3>
+<p class="text-body-md font-body-md text-on-surface-variant leading-relaxed">
+              Cada usuario opera sobre su propio espacio contable privado y cifrado, respaldado por autenticación robusta y control de acceso riguroso sin conexión con terceros ni agregadores intermediarios.
+            </p>
+</div>
+<div class="mt-8 pt-4 border-t border-paper-hairline text-label-sm font-label-sm text-outline">
+            Soberanía absoluta de base de datos
+          </div>
+</div>
+<!-- Principio 02 -->
+<div class="bg-cardstock p-8 rounded-xl border border-paper-hairline flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-6">
+<span class="text-label-sm font-label-sm text-slate">02 / INTEGRIDAD</span>
+<span class="material-symbols-outlined text-primary text-xl" data-icon="calculate">calculate</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-primary mb-3">
+              Cálculo en Base de Datos
+            </h3>
+<p class="text-body-md font-body-md text-on-surface-variant leading-relaxed">
+              Totales, agregaciones y balances procesados directamente a nivel de base de datos con precisión decimal exacta, eliminando errores de coma flotante y discrepancias de renderizado en el navegador.
+            </p>
+</div>
+<div class="mt-8 pt-4 border-t border-paper-hairline text-label-sm font-label-sm text-outline">
+            Tipos decimales de alta precisión
+          </div>
+</div>
+<!-- Principio 03 -->
+<div class="bg-cardstock p-8 rounded-xl border border-paper-hairline flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-6">
+<span class="text-label-sm font-label-sm text-slate">03 / KAKEBO</span>
+<span class="material-symbols-outlined text-primary text-xl" data-icon="folder_managed">folder_managed</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-primary mb-3">
+              Categorización Consciente
+            </h3>
+<p class="text-body-md font-body-md text-on-surface-variant leading-relaxed">
+              Estructura sin fricción construida en torno a cuatro pilares financieros reales: Alimentos indispensables, Servicios operativos, Ocio presupuestado y Salario neto.
+            </p>
+</div>
+<div class="mt-8 pt-4 border-t border-paper-hairline text-label-sm font-label-sm text-outline">
+            Cuatro sobres canónicos cerrados
+          </div>
+</div>
+</div>
+</section>
+<!-- Ciclo Operativo / Workflow Concreto -->
+<section class="max-w-7xl mx-auto px-6 md:px-12 py-20 border-b border-paper-hairline" id="metodologia">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
+<div>
+<span class="text-label-sm font-label-sm text-slate uppercase tracking-wider block">FLUJO DE REGISTRO</span>
+<h2 class="text-headline-md font-headline-md text-primary mt-1">
+            Flujo Operativo en Tres Pasos
+          </h2>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant max-w-md mt-4 md:mt-0">
+          Un proceso sin sincronizaciones automáticas opacas: cada entrada es un acto deliberado de consciencia contable.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Paso 01 -->
+<div class="bg-cardstock p-6 rounded-lg border border-paper-hairline relative">
+<span class="text-headline-sm font-headline-sm text-slate/40 block mb-4">01.</span>
+<h3 class="text-body-lg font-body-lg font-semibold text-primary mb-2">
+            Registro de Transacción
+          </h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant leading-relaxed mb-4">
+            Ingreso manual inmediato con fecha, categoría canónica asignada y monto numérico exacto en divisa local.
+          </p>
+<div class="bg-surface-container-low p-3 rounded border border-paper-hairline font-ledger-num text-body-sm text-slate flex justify-between items-center">
+<span>2026-10-06</span>
+<span class="text-primary font-medium">Alimentos</span>
+<span class="text-muted-terracotta">-$18.40</span>
+</div>
+</div>
+<!-- Paso 02 -->
+<div class="bg-cardstock p-6 rounded-lg border border-paper-hairline relative">
+<span class="text-headline-sm font-headline-sm text-slate/40 block mb-4">02.</span>
+<h3 class="text-body-lg font-body-lg font-semibold text-primary mb-2">
+            Asignación al Balance
+          </h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant leading-relaxed mb-4">
+            Cálculo atómico instantáneo que impacta el neto sin intermediarios bancarios ni telemetría invasiva.
+          </p>
+<div class="bg-surface-container-low p-3 rounded border border-paper-hairline font-ledger-num text-body-sm text-slate flex justify-between items-center">
+<span>Asignación Sobres</span>
+<span class="text-primary font-medium">Atomic TX</span>
+<span class="text-sage-forest">Sincronizado</span>
+</div>
+</div>
+<!-- Paso 03 -->
+<div class="bg-cardstock p-6 rounded-lg border border-paper-hairline relative">
+<span class="text-headline-sm font-headline-sm text-slate/40 block mb-4">03.</span>
+<h3 class="text-body-lg font-body-lg font-semibold text-primary mb-2">
+            Inspección del Estado
+          </h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant leading-relaxed mb-4">
+            Vista clara del libro mayor y solvencia disponible para toma de decisiones reflexiva y ponderada.
+          </p>
+<div class="bg-surface-container-low p-3 rounded border border-paper-hairline font-ledger-num text-body-sm text-slate flex justify-between items-center">
+<span>Solvencia Real</span>
+<span class="text-primary font-bold">$1,710.00</span>
+<span class="text-sage-forest">Auditable</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Especificaciones Técnicas y Manifiesto de Privacidad -->
+<section class="max-w-7xl mx-auto px-6 md:px-12 py-20" id="especificaciones">
+<div class="bg-cardstock rounded-xl border border-paper-hairline p-8 md:p-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<div class="lg:col-span-8">
+<span class="text-label-sm font-label-sm text-slate uppercase tracking-wider block">INTEGRIDAD DEL SISTEMA</span>
+<h2 class="text-headline-md font-headline-md text-primary mt-1">
+              Sin algoritmos predictivos. Sin rastreadores comerciales.
+            </h2>
+<p class="text-body-md font-body-md text-on-surface-variant mt-3 leading-relaxed">
+              Atelier Finanzas está programado para rechazar el modelo de negocio extractivo de la tecnología financiera contemporánea. No vendemos agregaciones de compra, no evaluamos tu perfil para ofrecerte créditos de consumo y no mantenemos conexiones opacas a plataformas publicitarias.
+            </p>
+<div class="mt-6 flex flex-wrap gap-4 text-label-sm font-label-sm text-primary">
+<span class="bg-surface-container px-3 py-1 rounded border border-paper-hairline">SQL ACID nativo</span>
+<span class="bg-surface-container px-3 py-1 rounded border border-paper-hairline">Cifrado de reposo</span>
+<span class="bg-surface-container px-3 py-1 rounded border border-paper-hairline">Cero rastreadores de telemetría</span>
+<span class="bg-surface-container px-3 py-1 rounded border border-paper-hairline">Exportación local total</span>
+</div>
+</div>
+<div class="lg:col-span-4 flex flex-col items-start lg:items-end justify-center">
+<button class="bg-primary-container text-on-primary px-6 py-3.5 rounded-lg text-body-md font-body-md font-medium border border-paper-hairline shadow-sm hover:bg-primary active:-translate-y-px transition-all w-full sm:w-auto text-center">
+              Iniciar Libro Contable
+            </button>
+<span class="text-label-sm font-label-sm text-slate mt-2">Versión 1.0 lista para despliegue</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component JSON Blueprint) -->
+<footer class="bg-surface-container-low dark:bg-primary-container text-primary dark:text-inverse-primary docked full-width border-t border-outline-variant/30 dark:border-outline/20">
+<div class="max-w-7xl mx-auto px-6 md:px-12 py-12 flex flex-col md:flex-row items-baseline justify-between gap-6 w-full">
+<div class="space-y-2 max-w-md">
+<span class="text-label-sm font-label-sm font-semibold uppercase tracking-widest text-on-surface dark:text-inverse-on-surface block">
+          Atelier Finanzas
+        </span>
+<p class="text-body-sm font-body-sm text-on-surface-variant dark:text-outline-variant">
+          © 2025 Atelier Finanzas. Contabilidad sobria y deliberada. Sin dependencias externas ni telemetría comercial.
+        </p>
+</div>
+<nav class="flex flex-wrap gap-6 text-label-sm font-label-sm">
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-inverse-primary transition-colors" href="#privacidad">
+          Privacidad Estricta
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-inverse-primary transition-colors" href="#arquitectura">
+          Arquitectura del Sistema
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-inverse-primary transition-colors" href="#exportacion">
+          Exportación Abierta
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-inverse-primary transition-colors" href="#cambios">
+          Registro de Cambios
+        </a>
+</nav>
+</div>
+</footer>
+</body></html>
