@@ -15,6 +15,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # Authentication & User Management
     path("api/v1/auth/", include("accounts.urls")),
+    # Financial Core (Categories & Transactions)
+    path("api/v1/", include("finance.urls")),
     # Infrastructure & Monitoring
     path("api/v1/health/", HealthCheckView.as_view(), name="health-check"),
     # OpenAPI Schema & Interactive Documentation
