@@ -209,3 +209,37 @@ class ReportsAggregationTests(APITestCase):
 
         res_cat = self.client.get(self.by_category_url)
         self.assertEqual(res_cat.status_code, status.HTTP_401_UNAUTHORIZED)
+
+        res_forecast = self.client.get(reverse("report-forecast"))
+        self.assertEqual(res_forecast.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_forecast_report_with_transactions(self):
+        """Verify statistical forecast computes metrics, OLS regression, predictions and insights."""
+        self.client.force_authenticate(user=self.user_a)
+        forecast_url = reverse("report-forecast")
+        response = self.client.get(forecast_url, {"months_ahead": 3})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.data
+        self.assertIn("historical", data)
+        self.assertIn("statistics", data)
+        self.assertIn("predictions", data)
+        self.assertIn("category_predictions", data)
+        self.assertIn("insights", data)
+
+        self.assertEqual(len(data["predictions"]), 3)
+        self.assertGreater(data["statistics"]["avg_monthly_income"], 0)
+        self.assertGreater(data["statistics"]["avg_monthly_expense"], 0)
+        self.assertTrue(len(data["insights"]) > 0)
+
+    def test_forecast_report_empty_user_safe_fallback(self):
+        """Verify forecast handles empty user gracefully without division by zero."""
+        self.client.force_authenticate(user=self.user_c)
+        forecast_url = reverse("report-forecast")
+        response = self.client.get(forecast_url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["historical"], [])
+        self.assertEqual(response.data["statistics"]["avg_monthly_income"], 0.0)
+        self.assertEqual(response.data["statistics"]["avg_monthly_expense"], 0.0)
+        self.assertEqual(response.data["predictions"], [])

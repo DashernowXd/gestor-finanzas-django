@@ -111,3 +111,123 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
                 self.error_messages["no_active_account"],
                 code="authentication_failed",
             )
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    """
+    Profile serializer with account statistics.
+    Provides user metadata, creation date, and total active categories & transactions.
+    """
+    category_count = serializers.SerializerMethodField()
+    transaction_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "email",
+            "username",
+            "date_joined",
+            "category_count",
+            "transaction_count",
+        )
+        read_only_fields = (
+            "id",
+            "email",
+            "date_joined",
+            "category_count",
+            "transaction_count",
+        )
+
+    def get_category_count(self, obj):
+        return obj.categories.count()
+
+    def get_transaction_count(self, obj):
+        return obj.transactions.count()
+
+
+class UpdateProfileSerializer(serializers.ModelSerializer):
+    """
+    Serializer to update user profile information (e.g. username).
+    """
+    class Meta:
+        model = User
+        fields = ("username",)
+
+    def validate_username(self, value):
+        normalized = value.strip()
+        if not normalized:
+            raise serializers.ValidationError("El nombre de usuario no puede estar vacío.")
+        if len(normalized) < 3:
+            raise serializers.ValidationError("El nombre de usuario debe tener al menos 3 caracteres.")
+        if len(normalized) > 150:
+            raise serializers.ValidationError("El nombre de usuario no puede exceder 150 caracteres.")
+        
+        request = self.context.get("request")
+        user = getattr(request, "user", None)
+        if User.objects.filter(username__iexact=normalized).exclude(pk=user.pk if user else None).exists():
+            raise serializers.ValidationError("Este nombre de usuario ya está en uso.")
+        return normalized
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    """
+    Serializer to safely change password.
+    Requires validating existing old_password and enforces Django's password validators.
+    """
+    old_password = serializers.CharField(
+        required=True,
+        write_only=True,
+        style={"input_type": "password"},
+    )
+    new_password = serializers.CharField(
+        required=True,
+        write_only=True,
+        style={"input_type": "password"},
+    )
+    new_password_confirm = serializers.CharField(
+        required=True,
+        write_only=True,
+        style={"input_type": "password"},
+    )
+
+    def validate_old_password(self, value):
+        request = self.context.get("request")
+        user = getattr(request, "user", None)
+        if user and not user.check_password(value):
+            raise serializers.ValidationError("La contraseña actual es incorrecta.")
+        return value
+
+    def validate(self, attrs):
+        if attrs["new_password"] != attrs["new_password_confirm"]:
+            raise serializers.ValidationError(
+                {"new_password_confirm": "Las nuevas contraseñas no coinciden."}
+            )
+        request = self.context.get("request")
+        user = getattr(request, "user", None)
+        try:
+            validate_password(attrs["new_password"], user=user)
+        except DjangoValidationError as err:
+            raise serializers.ValidationError({"new_password": list(err.messages)})
+        return attrs
+
+
+class DeleteAccountSerializer(serializers.Serializer):
+    """
+    Serializer for irreversible account deletion.
+    Requires password verification to prevent unauthorized or accidental deletion.
+    """
+    password = serializers.CharField(
+        required=True,
+        write_only=True,
+        style={"input_type": "password"},
+    )
+
+    def validate_password(self, value):
+        request = self.context.get("request")
+        user = getattr(request, "user", None)
+        if user and not user.check_password(value):
+            raise serializers.ValidationError(
+                "Contraseña incorrecta. Se requiere verificar tu identidad para eliminar la cuenta."
+            )
+        return value

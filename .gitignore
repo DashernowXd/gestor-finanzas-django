@@ -27,3 +27,8 @@ staticfiles/
 .idea/
 *.swp
 *.swo
+*.code-workspace
+
+# Node / Frontend artifacts
+node_modules/
+dist/

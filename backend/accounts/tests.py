@@ -157,3 +157,101 @@ class AuthTests(APITestCase):
         """Verify that an invalid refresh token returns 401 Unauthorized."""
         response = self.client.post(self.refresh_url, {"refresh": "invalid-token-string"})
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_get_user_profile_success(self):
+        """Verify retrieving user profile and statistics (categories & transactions)."""
+        user = User.objects.create_user(
+            email="profile.user@example.com",
+            username="profileuser",
+            password="StrongPassword123!",
+        )
+        self.client.force_authenticate(user=user)
+        response = self.client.get(reverse("user-profile"))
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["email"], "profile.user@example.com")
+        self.assertEqual(response.data["username"], "profileuser")
+        self.assertIn("category_count", response.data)
+        self.assertIn("transaction_count", response.data)
+        self.assertIn("date_joined", response.data)
+
+    def test_update_username_success(self):
+        """Verify updating username via PATCH on user profile endpoint."""
+        user = User.objects.create_user(
+            email="update.user@example.com",
+            username="oldname",
+            password="StrongPassword123!",
+        )
+        self.client.force_authenticate(user=user)
+        response = self.client.patch(reverse("user-profile"), {"username": "newname"})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["username"], "newname")
+        user.refresh_from_db()
+        self.assertEqual(user.username, "newname")
+
+    def test_change_password_success(self):
+        """Verify changing password requires old password and updates authentication."""
+        user = User.objects.create_user(
+            email="pwd.user@example.com",
+            username="pwduser",
+            password="OldPassword123!",
+        )
+        self.client.force_authenticate(user=user)
+        response = self.client.post(
+            reverse("user-change-password"),
+            {
+                "old_password": "OldPassword123!",
+                "new_password": "BrandNewPassword123!",
+                "new_password_confirm": "BrandNewPassword123!",
+            },
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        user.refresh_from_db()
+        self.assertTrue(user.check_password("BrandNewPassword123!"))
+
+    def test_change_password_wrong_old_password_fails(self):
+        """Verify changing password fails if old password is incorrect."""
+        user = User.objects.create_user(
+            email="wrongpwd.user@example.com",
+            username="wrongpwduser",
+            password="OldPassword123!",
+        )
+        self.client.force_authenticate(user=user)
+        response = self.client.post(
+            reverse("user-change-password"),
+            {
+                "old_password": "IncorrectPassword123!",
+                "new_password": "BrandNewPassword123!",
+                "new_password_confirm": "BrandNewPassword123!",
+            },
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("old_password", response.data)
+
+    def test_delete_account_irreversible_cascade(self):
+        """Verify account deletion deletes user and all associated categories and transactions."""
+        user = User.objects.create_user(
+            email="delete.me@example.com",
+            username="deleteme",
+            password="StrongPassword123!",
+        )
+        # Create category and transaction for this user
+        cat = Category.objects.create(user=user, name="Despensa", kind=Category.Kind.EXPENSE)
+        user.transactions.create(
+            category=cat,
+            amount="50.00",
+            kind="EXPENSE",
+            description="Supermercado",
+        )
+
+        self.client.force_authenticate(user=user)
+        response = self.client.post(
+            reverse("user-delete-account"),
+            {"password": "StrongPassword123!"},
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Verify user and related data are completely removed
+        self.assertFalse(User.objects.filter(email="delete.me@example.com").exists())
+        self.assertEqual(Category.objects.filter(name="Despensa").count(), 0)
