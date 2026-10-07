@@ -81,7 +81,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "config.wsgi.application Western"
 WSGI_APPLICATION = "config.wsgi.application"
 
 # Database configuration
