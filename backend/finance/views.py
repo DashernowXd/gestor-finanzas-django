@@ -22,11 +22,14 @@ class CategoryViewSet(viewsets.ModelViewSet):
     CRUD ViewSet for financial categories.
     Guarantees strict user isolation: each user only interacts with their own categories.
     """
+    queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         """Scope categories strictly to the authenticated user."""
+        if getattr(self, "swagger_fake_view", False) or not self.request.user.is_authenticated:
+            return Category.objects.none()
         return Category.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
@@ -51,6 +54,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
     CRUD ViewSet for financial transactions (Incomes and Expenses).
     Enforces user isolation and optimizes database queries with select_related.
     """
+    queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
     permission_classes = [permissions.IsAuthenticated]
     filterset_class = TransactionFilter
@@ -60,6 +64,8 @@ class TransactionViewSet(viewsets.ModelViewSet):
         Scope transactions strictly to the authenticated user.
         Uses select_related to eliminate N+1 queries when fetching related Category data.
         """
+        if getattr(self, "swagger_fake_view", False) or not self.request.user.is_authenticated:
+            return Transaction.objects.none()
         return (
             Transaction.objects.filter(user=self.request.user)
             .select_related("category")
