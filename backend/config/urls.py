@@ -9,14 +9,19 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
     SpectacularRedocView,
 )
+from django.views.generic import RedirectView
 from config.views import HealthCheckView
 
 urlpatterns = [
+    # Convenient Root Redirect to Swagger Documentation
+    path("", RedirectView.as_view(url="/api/docs/", permanent=False), name="root-redirect"),
     path("admin/", admin.site.urls),
     # Authentication & User Management
     path("api/v1/auth/", include("accounts.urls")),
     # Financial Core (Categories & Transactions)
     path("api/v1/", include("finance.urls")),
+    # Analytical Reports & Aggregations
+    path("api/v1/reports/", include("reports.urls")),
     # Infrastructure & Monitoring
     path("api/v1/health/", HealthCheckView.as_view(), name="health-check"),
     # OpenAPI Schema & Interactive Documentation
