@@ -1,0 +1,47 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: finance_postgres_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: financedb
+      POSTGRES_USER: financeuser
+      POSTGRES_PASSWORD: financepassword123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U financeuser -d financedb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: finance_django_api
+    restart: unless-stopped
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             gunicorn config.wsgi:application --bind 0.0.0.0:8000 --reload"
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      DEBUG: "True"
+      SECRET_KEY: "django-insecure-docker-compose-local-key-321abc"
+      ALLOWED_HOSTS: "localhost,127.0.0.1,api"
+      DATABASE_URL: "postgresql://financeuser:financepassword123@db:5432/financedb"
+      CORS_ALLOWED_ORIGINS: "http://localhost:3000,http://localhost:5173"
+      JWT_ACCESS_MINUTES: 15
+      JWT_REFRESH_DAYS: 7
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
