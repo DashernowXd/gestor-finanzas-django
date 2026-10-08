@@ -10,7 +10,7 @@ import type {
   ForecastReport,
 } from '../types'
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || ''
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '')
 
 class ApiError extends Error {
   status: number
@@ -24,21 +24,16 @@ class ApiError extends Error {
   }
 }
 
-// Token storage helpers
-const TOKEN_KEY = 'atelier_auth_tokens'
+// In-memory token storage (tokens are never persisted in web storage to prevent XSS exfiltration)
+let inMemoryTokens: AuthTokens | null = null
 const USER_KEY = 'atelier_user'
 
 export const tokenStorage = {
   getTokens(): AuthTokens | null {
-    try {
-      const item = localStorage.getItem(TOKEN_KEY)
-      return item ? JSON.parse(item) : null
-    } catch {
-      return null
-    }
+    return inMemoryTokens
   },
   setTokens(tokens: AuthTokens) {
-    localStorage.setItem(TOKEN_KEY, JSON.stringify(tokens))
+    inMemoryTokens = tokens
   },
   getUser(): User | null {
     try {
@@ -52,7 +47,7 @@ export const tokenStorage = {
     localStorage.setItem(USER_KEY, JSON.stringify(user))
   },
   clear() {
-    localStorage.removeItem(TOKEN_KEY)
+    inMemoryTokens = null
     localStorage.removeItem(USER_KEY)
   },
 }

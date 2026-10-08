@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useFinanceData, type FinanceFilters } from '../hooks/useFinanceData'
 import { BalanceSummary } from '../components/dashboard/BalanceSummary'
 import { LedgerTable } from '../components/dashboard/LedgerTable'
@@ -58,12 +58,12 @@ export function DashboardPage({
     }
   }
 
-  const handleFilterChange = (newFilters: Partial<FinanceFilters>) => {
+  const handleFilterChange = useCallback((newFilters: Partial<FinanceFilters>) => {
     setFilters((prev) => ({
       ...prev,
       ...newFilters,
     }))
-  }
+  }, [setFilters])
 
   const handleExportCsv = () => {
     if (transactions.length === 0) {

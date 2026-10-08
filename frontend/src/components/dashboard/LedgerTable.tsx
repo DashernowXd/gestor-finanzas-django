@@ -50,7 +50,7 @@ export function LedgerTable({
       date_to: dateTo || undefined,
       page: 1,
     })
-  }, [debouncedSearch, selectedCategory, ordering, dateFrom, dateTo])
+  }, [debouncedSearch, selectedCategory, ordering, dateFrom, dateTo, onFilterChange])
 
   const toggleSort = () => {
     const nextOrder = ordering === '-date' ? 'date' : '-date'

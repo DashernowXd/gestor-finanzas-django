@@ -1,6 +1,13 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { api, formatApiError } from '../../services/api'
 import type { ForecastReport } from '../../types'
+
+// SVG dimensions and scaling calculation
+const svgWidth = 840
+const svgHeight = 320
+const padding = { top: 30, right: 35, bottom: 45, left: 65 }
+const graphWidth = svgWidth - padding.left - padding.right
+const graphHeight = svgHeight - padding.top - padding.bottom
 
 interface StatisticalForecastViewProps {
   onRefreshTrigger?: () => void
@@ -67,14 +74,6 @@ export function StatisticalForecastView({ onRefreshTrigger }: StatisticalForecas
     return [...historicalPoints, ...predictionPoints]
   }, [report])
 
-  // SVG dimensions and scaling calculation
-  const svgWidth = 840
-  const svgHeight = 320
-  const padding = { top: 30, right: 35, bottom: 45, left: 65 }
-
-  const graphWidth = svgWidth - padding.left - padding.right
-  const graphHeight = svgHeight - padding.top - padding.bottom
-
   const maxVal = useMemo(() => {
     if (chartData.length === 0) return 1000
     let highest = 0
@@ -86,14 +85,20 @@ export function StatisticalForecastView({ onRefreshTrigger }: StatisticalForecas
     return Math.max(highest * 1.15, 100)
   }, [chartData])
 
-  const getY = (val: number) => {
-    return padding.top + graphHeight - (Math.max(0, val) / maxVal) * graphHeight
-  }
+  const getY = useCallback(
+    (val: number) => {
+      return padding.top + graphHeight - (Math.max(0, val) / maxVal) * graphHeight
+    },
+    [maxVal]
+  )
 
-  const getX = (index: number) => {
-    if (chartData.length <= 1) return padding.left + graphWidth / 2
-    return padding.left + (index / (chartData.length - 1)) * graphWidth
-  }
+  const getX = useCallback(
+    (index: number) => {
+      if (chartData.length <= 1) return padding.left + graphWidth / 2
+      return padding.left + (index / (chartData.length - 1)) * graphWidth
+    },
+    [chartData.length]
+  )
 
   // Calculate SVG paths
   const historicalCount = report?.historical.length || 0
@@ -102,7 +107,7 @@ export function StatisticalForecastView({ onRefreshTrigger }: StatisticalForecas
     const pts = chartData.slice(0, historicalCount)
     if (pts.length === 0) return ''
     return pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${getX(i)} ${getY(p.expense)}`).join(' ')
-  }, [chartData, historicalCount])
+  }, [chartData, historicalCount, getX, getY])
 
   const expensePredPath = useMemo(() => {
     if (historicalCount === 0 || chartData.length <= historicalCount) return ''
@@ -111,13 +116,13 @@ export function StatisticalForecastView({ onRefreshTrigger }: StatisticalForecas
     return pts
       .map((p, i) => `${i === 0 ? 'M' : 'L'} ${getX(historicalCount - 1 + i)} ${getY(p.expense)}`)
       .join(' ')
-  }, [chartData, historicalCount])
+  }, [chartData, historicalCount, getX, getY])
 
   const incomeHistPath = useMemo(() => {
     const pts = chartData.slice(0, historicalCount)
     if (pts.length === 0) return ''
     return pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${getX(i)} ${getY(p.income)}`).join(' ')
-  }, [chartData, historicalCount])
+  }, [chartData, historicalCount, getX, getY])
 
   const incomePredPath = useMemo(() => {
     if (historicalCount === 0 || chartData.length <= historicalCount) return ''
@@ -125,7 +130,7 @@ export function StatisticalForecastView({ onRefreshTrigger }: StatisticalForecas
     return pts
       .map((p, i) => `${i === 0 ? 'M' : 'L'} ${getX(historicalCount - 1 + i)} ${getY(p.income)}`)
       .join(' ')
-  }, [chartData, historicalCount])
+  }, [chartData, historicalCount, getX, getY])
 
   // Confidence Interval polygon for predictions
   const confidencePolygon = useMemo(() => {
@@ -141,7 +146,7 @@ export function StatisticalForecastView({ onRefreshTrigger }: StatisticalForecas
     })
 
     return `${upperPoints.join(' ')} ${lowerPoints.join(' ')}`
-  }, [chartData, historicalCount])
+  }, [chartData, historicalCount, getX, getY])
 
   const stats = report?.statistics
 

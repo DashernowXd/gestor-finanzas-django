@@ -29,15 +29,14 @@ export function TransactionForm({ categories, onSubmit, onSuccess }: Transaction
 
   // Auto-select first matching category when kind changes or categories load
   useEffect(() => {
-    if (filteredCategories.length > 0) {
-      // Check if current category matches
-      const stillValid = filteredCategories.some((c) => c.id === categoryId)
-      if (!stillValid) {
-        setCategoryId(filteredCategories[0].id)
+    const matching = categories.filter((cat) => cat.kind === kind)
+    setCategoryId((prevId) => {
+      if (matching.length > 0) {
+        const stillValid = matching.some((c) => c.id === prevId)
+        return stillValid ? prevId : matching[0].id
       }
-    } else {
-      setCategoryId('')
-    }
+      return ''
+    })
   }, [kind, categories])
 
   const handleSubmit = async (e: React.FormEvent) => {
